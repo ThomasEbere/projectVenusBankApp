@@ -1,6 +1,9 @@
 from random import randint
 import maskpass
 from database import Database
+from emails import Email
+
+send = Email.SendEmail()
 
 newData = Database.Database()
 
@@ -41,6 +44,7 @@ class Users:
                                                accountnumber,
                                                Users.deposit)
             if newData.insertData(newuser):
+                Users.sendconfirmaccount(email, firstname)
                 return "Success"
             else:
                 return "An Error occurred"
@@ -65,6 +69,12 @@ class Users:
             "deposit": deposit
         }
         return userdata
+
+    @staticmethod
+    def sendconfirmaccount(destination, firstname):
+
+        if __name__ == '__main__':
+            send.send_email(destination, firstname)
 
 
 user = Users.create_account()

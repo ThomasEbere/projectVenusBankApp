@@ -23,12 +23,12 @@ class Database(object):
         datainserted = connect.createcollection().insert_one(data)
         return datainserted
 
-    @staticmethod
-    def getalldata():
-        for doc in connect.createcollection().find():
-            print(doc)
+    # @staticmethod
+    # def getalldata():
+    #     for doc in connect.createcollection().find():
+    #         print(doc)
 
 
 connect = Database()
 
-connect.getalldata()
+# connect.getalldata()
