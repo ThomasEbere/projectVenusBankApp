@@ -2,7 +2,7 @@ from random import randint
 import maskpass
 from database import Database
 from emails import Email
-
+import dependency
 send = Email.SendEmail()
 
 newData = Database.Database()
@@ -18,7 +18,6 @@ class Users:
         self.email = email
         self.mobile_number = mobile_number
         self.password = password
-        self.account_no = self.generate_account_number()
 
     @classmethod
     def create_account(cls):
@@ -28,7 +27,7 @@ class Users:
         email = input("Kindly enter your email address ")
         mobile_number = input("Kindly enter your mobile number ")
         password = input("Enter your password ")
-        accountnumber = Users.generate_account_number()
+        accountnumber = dependency.Depend.generate_account_number()
         print(f"""These are the details you entered:
             first Name: {firstname}
             last Name: {lastname}
@@ -40,6 +39,7 @@ class Users:
             """)
         user_credentials = input("Press Yes if you confirm that they are correct or press No to reenter")
         if user_credentials == "Yes" or "yes":
+            print(user_credentials)
             newuser = Users.converdatatostring(firstname, lastname, address, email, mobile_number, password,
                                                accountnumber,
                                                Users.deposit)
@@ -50,11 +50,6 @@ class Users:
                 return "An Error occurred"
         else:
             return cls.create_account()
-
-    @staticmethod
-    def generate_account_number():
-        new_num = randint(10000, 99999)
-        return new_num
 
     @staticmethod
     def converdatatostring(first_name, last_name, address, email, mobile_number, password, account_number, deposit):
@@ -74,6 +69,7 @@ class Users:
     def sendconfirmaccount(destination, firstname):
 
         if __name__ == '__main__':
+            print(send.confirmation_code)
             send.send_email(destination, firstname)
 
 

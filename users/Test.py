@@ -12,12 +12,11 @@ from email.message import EmailMessage
 import smtplib
 import os
 
-
 # def send_email(message, destination):
 #     # important, you need to send it to a server that knows how to send e-mails for you
 #     server = smtplib.SMTP('smtp.gmail.com', 587)
 #     server.starttls()
-#     # don't know how to do it without cleartexting the password and not relying on some json file that you dont git
+#     # don't know how to do it without clear texting the password and not relying on some json file that you dont git
 #     # control...
 #     server.login('waterloobanking@gmail.com', 'gamvqmzsferrqjzv')
 #     msg = EmailMessage()
@@ -34,3 +33,8 @@ import os
 # if __name__ == '__main__':
 #     send_email('msg', 'tebere.chukwuka@gmail.com')
 
+name = input("Enter your name")
+
+items = f"Welcome to the party \033[1m {name} \033[0m"
+
+print(items)

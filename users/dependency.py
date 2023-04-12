@@ -1,6 +1,8 @@
-import subprocess, pty, sys
+from random import randint
 
-# Create new tty to handle ioctl errors in termios
-master_fd, slave_fd = pty.openpty()
 
-proc = subprocess.Popen([sys.executable, 'Test.py'], stdin=slave_fd)
+class Depend:
+    @staticmethod
+    def generate_account_number():
+        new_num = randint(10000, 99999)
+        return new_num
