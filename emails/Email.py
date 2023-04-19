@@ -9,7 +9,7 @@ import os
 class SendEmail:
     confirmation_code = Depend.generate_account_number()
 
-    def send_email(self, destination, firstname):
+    def send_email(self):
         # important, you need to send it to a server that knows how to send e-mails for you
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
@@ -17,6 +17,10 @@ class SendEmail:
         # control...
         server.login('waterloobanking@gmail.com', 'gamvqmzsferrqjzv')
         msg = EmailMessage()
+        return msg, server
+
+    def accountcreation(self, destination, firstname):
+        msg, server = email.send_email()
         message = f"""Hello {firstname},
             Thanks for opening an account with us. We hope you enjoy your banking experience. 
             Your once time password is. Please use this passcode {SendEmail.confirmation_code}
@@ -31,7 +35,64 @@ class SendEmail:
         server.send_message(msg)
         print("successful")
 
+    def updatedbalance(self, destination, balance, firstname, newbalance):
+        msg, server = email.send_email()
+        message = f"""Hello {firstname},
+                Your deposit of ${balance} was successful. Your new balance is ${newbalance}. Continue to enjoy banking 
+                with us,
+                Thanks,
+                 WaterlooBank"""
+        msg.set_content(message)
+
+        msg['Subject'] = 'Account|-Operation|Deposit'
+        msg['From'] = 'waterloobanking@gmail.com'
+        msg['To'] = destination
+        server.send_message(msg)
+        print("successful")
+
+    def withdraw(self, destination, balance, firstname, newbalance):
+        msg, server = email.send_email()
+        message = f"""Hello {firstname},
+                Your withdrawal of ${balance} was successful. Your new balance is ${newbalance}. Continue to enjoy 
+                banking with us Thanks, WaterlooBank"""
+        msg.set_content(message)
+
+        msg['Subject'] = 'Account-Operation|Withdrawal'
+        msg['From'] = 'waterloobanking@gmail.com'
+        msg['To'] = destination
+        server.send_message(msg)
+        print("successful")
+
+    def transwith(self, destination, balance, firstname, newbalance, receiptfirstname):
+        msg, server = email.send_email()
+        message = f"""Hello {firstname},
+                You successfully transferred  ${balance}  to {receiptfirstname}. Your new balance is ${newbalance}. Continue to enjoy 
+                banking with us Thanks, WaterlooBank"""
+        msg.set_content(message)
+
+        msg['Subject'] = 'Account-Operation|Transfer'
+        msg['From'] = 'waterloobanking@gmail.com'
+        msg['To'] = destination
+        server.send_message(msg)
+        print("successful")
+
+    def transdepo(self, destination, balance, firstname, newbalance, receiptfirstname):
+        msg, server = email.send_email()
+        message = f"""Hello {receiptfirstname},
+                You successfully received  ${balance}  from {firstname}. Your new balance is ${newbalance}. Continue to enjoy 
+                banking with us Thanks, WaterlooBank"""
+        msg.set_content(message)
+
+        msg['Subject'] = 'Account-Operation|Deposit'
+        msg['From'] = 'waterloobanking@gmail.com'
+        msg['To'] = destination
+        server.send_message(msg)
+        print("successful")
+
     # @staticmethod
     # def generate_account_number():
     #     new_num = randint(10000, 99999)
     #     return new_num
+
+
+email = SendEmail()

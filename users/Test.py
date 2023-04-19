@@ -12,6 +12,7 @@ from email.message import EmailMessage
 import smtplib
 import os
 
+
 # def send_email(message, destination):
 #     # important, you need to send it to a server that knows how to send e-mails for you
 #     server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -33,8 +34,23 @@ import os
 # if __name__ == '__main__':
 #     send_email('msg', 'tebere.chukwuka@gmail.com')
 
-name = input("Enter your name")
+# name = input("Enter your name")
+#
+# items = f"Welcome to the party \033[1m {name} \033[0m"
+#
+# print(items)
 
-items = f"Welcome to the party \033[1m {name} \033[0m"
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
 
-print(items)
+    @staticmethod
+    def details():
+        name="John"
+        age=10
+        return "{0}, {1}".format(name,age)
+
+
+person = Person.details()
+print(person)
