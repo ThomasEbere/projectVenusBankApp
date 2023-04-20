@@ -45,7 +45,12 @@ class Database(object):
         data = connect.createcollection().find_one({"Account_Number": Account_Number})
         return data
 
+    @staticmethod
+    def updatestatus(email, status="True"):
+        statusupdate = connect.createcollection().update_one({"email": email}, {"$set": {"status": status}})
+        return statusupdate
+
 
 connect = Database()
-Database.getallusers()
+# Database.getallusers()
 # print(Database.checkuser("kizzito@gmail.com"))

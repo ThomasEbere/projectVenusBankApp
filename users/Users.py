@@ -24,6 +24,8 @@ class Users:
 
     @classmethod
     def create_account(cls):
+        print("""We are going to begin the process of signing you up so that we can create an account for you.
+                Please provide the following details""")
         firstname = input("Kindly enter your first Name ")
         lastname = input("Kindly enter your last Name ")
         address = input("Kindly enter your address ")
@@ -44,11 +46,15 @@ class Users:
         if user_credentials == "Yes" or "yes":
             newuser = Users.converdatatostring(firstname, lastname, address, email, mobile_number, password,
                                                accountnumber,
-                                               Users.deposit)
+                                               Users.deposit, send.confirmation_code)
             if not newData.checkuser(email):
                 if newData.insertData(newuser):
-                    Users.sendconfirmaccount(email, firstname)
-                    return "Success"
+                    if send.accountcreation(email, firstname):
+                        if Users.activateaccount(email):
+                            Users.login()
+                    else:
+                        print("Sorry, an error occurred. Please try again")
+                        return cls.create_account()
                 else:
                     print("An Error occurred")
                     return cls.create_account()
@@ -62,7 +68,8 @@ class Users:
             return cls.create_account()
 
     @staticmethod
-    def converdatatostring(first_name, last_name, address, email, mobile_number, password, account_number, deposit):
+    def converdatatostring(first_name, last_name, address, email, mobile_number, password, account_number, deposit,
+                           concode):
         userdata = {
             "first_Name": first_name,
             "last_Name": last_name,
@@ -71,16 +78,18 @@ class Users:
             "mobile_Number": mobile_number,
             "password": password,
             "Account_Number": account_number,
-            "deposit": deposit
+            "deposit": deposit,
+            "concode": concode,
+            "status": "FALSE"
         }
         return userdata
 
-    @staticmethod
-    def sendconfirmaccount(destination, firstname):
-
-        if __name__ == '__main__':
-            print(send.confirmation_code)
-            send.accountcreation(destination, firstname)
+    # @staticmethod
+    # def sendconfirmaccount(destination, firstname):
+    #
+    #     if __name__ == '__main__':
+    #         print(send.confirmation_code)
+    #         send.accountcreation(destination, firstname)
 
     @staticmethod
     def login():
@@ -89,13 +98,17 @@ class Users:
         password = input("Enter your password ")
         if newData.checkuser(email):
             founddata = newData.checkuser(email)
-            keys = ['first_Name', 'password']
+            keys = ['first_Name', 'password', 'status']
             values = list(map(founddata.get, keys))
-            firstname, newpass = values
-            if password == newpass:
+            firstname, newpass, status = values
+            if password == newpass and status == "True":
                 Users.menu(email, firstname)
+            elif password == newpass and status != "True":
+                print("Your account has not been activated")
+                if Users.activateaccount(email):
+                    Users.login()
             else:
-                print("Invalid password. Please check password and enter it again")
+                print("Your password is wrong. Please try again")
                 Users.login()
         else:
             print("User does not exit. Please follow the prompt to sign up instead")
@@ -195,5 +208,16 @@ class Users:
             print("Account does not exit. Check account and try again ")
             Users.transfer(email, firstname)
 
+    @staticmethod
+    def activateaccount(email):
+        confirmation = int(input("Please enter your confirmation code to activate your account"))
+        code = newData.checkuser(email)['concode']
+        if confirmation == code:
+            newData.updatestatus(email)
+            print("Your account has been activated. You can now log in to continue your banking")
+            return True
+        else:
+            return Users.activateaccount(email)
 
-Users.login()
+
+# Users.login()

@@ -33,7 +33,7 @@ class SendEmail:
         msg['From'] = 'waterloobanking@gmail.com'
         msg['To'] = destination
         server.send_message(msg)
-        print("successful")
+        return True
 
     def updatedbalance(self, destination, balance, firstname, newbalance):
         msg, server = email.send_email()
@@ -48,7 +48,7 @@ class SendEmail:
         msg['From'] = 'waterloobanking@gmail.com'
         msg['To'] = destination
         server.send_message(msg)
-        print("successful")
+        return True
 
     def withdraw(self, destination, balance, firstname, newbalance):
         msg, server = email.send_email()
@@ -61,7 +61,7 @@ class SendEmail:
         msg['From'] = 'waterloobanking@gmail.com'
         msg['To'] = destination
         server.send_message(msg)
-        print("successful")
+        return True
 
     def transwith(self, destination, balance, firstname, newbalance, receiptfirstname):
         msg, server = email.send_email()
@@ -74,7 +74,7 @@ class SendEmail:
         msg['From'] = 'waterloobanking@gmail.com'
         msg['To'] = destination
         server.send_message(msg)
-        print("successful")
+        return True
 
     def transdepo(self, destination, balance, firstname, newbalance, receiptfirstname):
         msg, server = email.send_email()
@@ -87,7 +87,7 @@ class SendEmail:
         msg['From'] = 'waterloobanking@gmail.com'
         msg['To'] = destination
         server.send_message(msg)
-        print("successful")
+        return True
 
     # @staticmethod
     # def generate_account_number():
